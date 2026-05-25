@@ -1,0 +1,3 @@
+D:/NATE_FILES/DESKTOP/Workspace/SDKs/wasd-lang/build/CMakeFiles/wasd.dir
+D:/NATE_FILES/DESKTOP/Workspace/SDKs/wasd-lang/build/CMakeFiles/edit_cache.dir
+D:/NATE_FILES/DESKTOP/Workspace/SDKs/wasd-lang/build/CMakeFiles/rebuild_cache.dir
