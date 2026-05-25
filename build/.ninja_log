@@ -1,6 +1,6 @@
 # ninja log v7
-12	598	8014104297656532	CMakeFiles/wasd.dir/src/config.cpp.obj	df74fe829e669c50
-33	614	8014104297856517	CMakeFiles/wasd.dir/src/main.cpp.obj	829c754901938ff8
-27	703	8014104297796527	CMakeFiles/wasd.dir/src/lexer.cpp.obj	197d57bcc36c982b
-19	828	8014104297726540	CMakeFiles/wasd.dir/src/interpreter.cpp.obj	23568525be7dffae
-828	1020	8014104305816517	wasd.exe	1b6a4f6393cc54ab
+12	463	8014121506549361	CMakeFiles/wasd.dir/src/config.cpp.obj	df74fe829e669c50
+33	542	8014121506759364	CMakeFiles/wasd.dir/src/main.cpp.obj	829c754901938ff8
+18	712	8014121506609361	CMakeFiles/wasd.dir/src/interpreter.cpp.obj	23568525be7dffae
+25	841	8014121506679367	CMakeFiles/wasd.dir/src/lexer.cpp.obj	197d57bcc36c982b
+841	1020	8014121514839372	wasd.exe	1b6a4f6393cc54ab

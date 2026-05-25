@@ -15,13 +15,15 @@ enum class TokenType {
     OUTPUT, // yap
     INPUT, // eavesdrop
     LOOP_START, // grind
-    LOOP_END // quit
+    LOOP_END, // quit
+    SET_CONSTANT
 };
 
 struct Token {
     TokenType type;
     size_t line;
     size_t count = 1;
+    std::string identifier;
 };
 
 std::vector<Token> tokenize(const std::string& sourceCode);
