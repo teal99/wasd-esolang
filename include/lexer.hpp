@@ -6,10 +6,12 @@
 #include <vector>
 
 enum class TokenType {
+    MOVE_UP, // W
+    MOVE_DOWN, // S
     MOVE_RIGHT, // D
     MOVE_LEFT, // A
-    INCREMENT, // W
-    DECREMENT, // S
+    INCREMENT, // click
+    DECREMENT, // miss
     OUTPUT, // yap
     INPUT, // eavesdrop
     LOOP_START, // grind

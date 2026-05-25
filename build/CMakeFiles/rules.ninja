@@ -42,7 +42,7 @@ rule CUSTOM_COMMAND
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = C:\msys64\ucrt64\bin\cmake.exe --regenerate-during-build -SD:\NATE_FILES\DESKTOP\Workspace\SDKs\wasd-lang -BD:\NATE_FILES\DESKTOP\Workspace\SDKs\wasd-lang\build
+  command = C:\msys64\ucrt64\bin\cmake.exe --regenerate-during-build -SD:\NATE_FILES\DESKTOP\Workspace\SDKs\wasd-esolang -BD:\NATE_FILES\DESKTOP\Workspace\SDKs\wasd-esolang\build
   description = Re-running CMake...
   generator = 1
 

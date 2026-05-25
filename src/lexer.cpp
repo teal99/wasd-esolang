@@ -3,14 +3,21 @@
 #include "../include/lexer.hpp"
 #include <string_view>
 #include <cctype>
+#include <algorithm>
 
 void flushBuffer(std::string& buffer, std::vector<Token>& tokens, size_t line) {
     if (buffer.empty()) return;
 
-    if (buffer == "yap")        tokens.push_back({TokenType::OUTPUT, line, 1});
-    else if (buffer == "eavesdrop") tokens.push_back({TokenType::INPUT, line, 1});
-    else if (buffer == "grind")     tokens.push_back({TokenType::LOOP_START, line, 1});
-    else if (buffer == "quit")      tokens.push_back({TokenType::LOOP_END, line, 1});
+    std::transform(buffer.begin(), buffer.end(), buffer.begin(), [](unsigned char c) {
+        return std::tolower(c);
+    });
+
+    if (buffer == "yap")            tokens.push_back({ TokenType::OUTPUT, line, 1     });
+    else if (buffer == "eavesdrop") tokens.push_back({ TokenType::INPUT, line, 1      });
+    else if (buffer == "grind")     tokens.push_back({ TokenType::LOOP_START, line, 1 });
+    else if (buffer == "quit")      tokens.push_back({ TokenType::LOOP_END, line, 1   });
+    else if (buffer == "click")     tokens.push_back({ TokenType::INCREMENT, line, 1  });
+    else if (buffer == "miss")      tokens.push_back({ TokenType::DECREMENT, line, 1  });
 
     buffer.clear();
 }
@@ -20,11 +27,21 @@ std::vector<Token> tokenize(const std::string& sourceCode) {
     tokens.reserve(sourceCode.size() / 4); 
     
     std::string currentWord;
+    std::string numberBuffer;
     currentWord.reserve(16);
+    numberBuffer.reserve(8);
+
     size_t currentLine = 1;
 
     bool insideComment = false;
     bool expectingSecondSlash = false;
+
+    auto finalizeNumber = [&]() {
+        if (!numberBuffer.empty() && !tokens.empty()) {
+            tokens.back().count = std::stoull(numberBuffer);
+            numberBuffer.clear();
+        }
+    };
 
     for (char rawChar : sourceCode) {
         if (insideComment) {
@@ -34,9 +51,11 @@ std::vector<Token> tokenize(const std::string& sourceCode) {
             }
             continue;
         }
+
         if (expectingSecondSlash) {
             expectingSecondSlash = false;
             if (rawChar == '/') {
+                finalizeNumber();
                 flushBuffer(currentWord, tokens, currentLine);
                 insideComment = true;
                 continue;
@@ -44,14 +63,27 @@ std::vector<Token> tokenize(const std::string& sourceCode) {
                 currentWord += '/';
             }
         }
+
         if (rawChar == '#') {
+            finalizeNumber();
             flushBuffer(currentWord, tokens, currentLine);
             insideComment = true;
             continue;
         }
+
         if (rawChar == '/') {
             expectingSecondSlash = true;
             continue;
+        }
+
+        if (std::isdigit(static_cast<unsigned char>(rawChar))) {
+            flushBuffer(currentWord, tokens, currentLine);
+            numberBuffer += rawChar;
+            continue;
+        }
+
+        if (!numberBuffer.empty()) {
+            finalizeNumber();
         }
 
         char c = std::tolower(static_cast<unsigned char>(rawChar));
@@ -65,8 +97,8 @@ std::vector<Token> tokenize(const std::string& sourceCode) {
             TokenType type;
             if (c == 'd')      type = TokenType::MOVE_RIGHT;
             else if (c == 'a') type = TokenType::MOVE_LEFT;
-            else if (c == 'w') type = TokenType::INCREMENT;
-            else               type = TokenType::DECREMENT;
+            else if (c == 'w') type = TokenType::MOVE_UP;
+            else               type = TokenType::MOVE_DOWN;
     
             if (!tokens.empty() && tokens.back().type == type && tokens.back().line == currentLine) {
                 tokens.back().count++;
@@ -78,6 +110,7 @@ std::vector<Token> tokenize(const std::string& sourceCode) {
         }
     }    
     
+    finalizeNumber();
     flushBuffer(currentWord, tokens, currentLine);
     return tokens;
 }
