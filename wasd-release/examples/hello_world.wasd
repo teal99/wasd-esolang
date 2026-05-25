@@ -1,0 +1,16 @@
+// Define easy labels for formatting offsets
+set jumpby10 10
+
+// Write directly using characters without checking ASCII tables
+click 'H' yap
+d click 'e' yap
+d click 'l' yap
+yap
+click 3 yap             // Adds 3 to land on 'o'
+d click ' ' yap
+d click 'W' yap
+d click 'o' yap
+d click 'r' yap
+d click 'l' yap
+d click 'd' yap
+d click '!' yap
